@@ -1,11 +1,10 @@
 {% extends "main/base.html" %}
 {% block body %}
 <div class="flex gap-5">
-    {% for post in posts %}
         <div class="bg-white rounded-md overflow-hidden p-2 shadow">
             <ul class="text-gray-600 border-b p-2">
                 <li class="font-bold hover:text-sky-600 uppercase text">
-                    <a href="post/{{post.id}}">{{post.title}}</a>
+                    <a href="#">{{post.title}}</a>
                 </li>
                 <li class="text-sm flex gap-1 items-center">
                     <a href="#" class="hover:text-sky-500 flex gap-1 items-center">
@@ -14,11 +13,9 @@
                     </a>
                     <span>{{post.date_posted|date:"F d, Y"}}</span>
                 </li>
-            </ul>
-                
+            </ul>    
             <span class="p-2">{{post.content}}</span>
         </div>
-    {% endfor %}
 </div>
 
 {% endblock body %}

@@ -41,11 +41,11 @@
                                     <li class="text-gray-600">{{user.email}}</li>
                                 </ul>
                                 <ul class="cursor-pointer">
-                                    <li class="transition ease-out px-3 py-2 pt-3 hover:bg-gray-100 hover:text-black"><a href="{% url 'profile' %}">Profile</a></li>
-                                    <li class="transition ease-out px-3 py-2 pb-3 hover:bg-gray-100 hover:text-black"><a href="#">Settings</a></li>
+                                    <a href="{% url 'profile' %}"><li class="transition ease-out px-3 py-2 pt-3 hover:bg-gray-100 hover:text-black">Profile</li></a>
+                                    <a href="#"><li class="transition ease-out px-3 py-2 pb-3 hover:bg-gray-100 hover:text-black">Settings</li></a>
                                 </ul>
                                 <ul class="pb-1 cursor-pointer">
-                                    <li class="transition ease-out px-3 py-2 hover:bg-gray-100 hover:text-black"><a href="{% url 'logout' %}">Log out</a></li>
+                                    <a href="{% url 'logout' %}"><li class="transition ease-out px-3 py-2 hover:bg-gray-100 hover:text-black">Log out</li></a>
                                 </ul>
                             </div>
                         </div>

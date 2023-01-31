@@ -1,12 +1,16 @@
 {% extends "main/base.html" %}
 {% block body %}
-    <div class="gap-5 flex flex-wrap">
+    <a href="#"><div class="gap-5 flex flex-wrap">
+        {% for site in sites %}
         <div href="#" class="transition ease-out bg-white rounded-md overflow-hidden shadow hover:shadow-lg hover:scale-105">
             <img class="w-full h-64 object-cover bg-gray-100 border-b" src="https://amsi.org.au/ESA_Senior_Years/imageSenior/2d_29.png">
             <div class="p-5">
-                <span class="block font-bold">Shitlord institute</span>
-                <span class="text-gray-500 text-sm">of some bastard</span>
+                <span class="block font-bold">{{site.name}}</span>
+                <span class="text-gray-500 text-sm">{{site.url}}</span>
+                <span>{{site.values}}</span>
             </div>
         </div>
-    </div>
+        {% endfor %}
+    </div></a>
+
 {% endblock body %}

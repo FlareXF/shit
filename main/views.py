@@ -1,9 +1,11 @@
 from django.shortcuts import render
+from .models import Sites
+
 
 def main(request):
 	context = {
 		'title' : 'main',
-		'sites' : None,
+		'sites' : Sites.objects.all(),
 	}
 	return render(request, 'main/main.html', context=context)
 

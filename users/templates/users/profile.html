@@ -1,0 +1,22 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_tags %}
+{% block body %}
+	<div class="flex justify-center">
+		<div class="flex flex-col gap-5 bg-white rounded-lg shadow p-5">
+			<span class="font-bold text-xl">Update profile</span>
+			<div class="flex gap-5">
+				<img class="w-14 h-14 rounded-full object-cover" src="{{ user.profile.image.url }}" >
+				<ul class="">
+					<li class="">{{user.username}}</li>
+					<li class="text-gray-600">{{user.email}}</li>
+				</ul>
+			</div>
+			<form method="POST" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{u_form|crispy}}
+				{{p_form|crispy}}
+				<button class="text-sm font-semibold transition block rounded-md p-2 bg-blue-600 text-white hover:bg-sky-500 hover:text-white hover:ring-2 hover:ring-gray-400" type="submit">Update</button>
+			</form>
+		</div>
+	</div>
+{% endblock body %}

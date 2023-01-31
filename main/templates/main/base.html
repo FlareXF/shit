@@ -1,0 +1,127 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+    
+    {% if title %}
+        <title>Shit - {{title}}</title>
+    {% else %}
+        <title>Shit</title>
+    {% endif %}
+</head>
+
+<body class="bg-gray-100">
+    <div>
+        <div>
+            <nav class="p-3 mb-3 flex justify-evenly items-center border-b bg-white">
+                <button class="">
+                    <img>
+                    <a href="{% url 'main' %}" class="transition ease-out hover:animate-pulse hover:scale-125 hover:text-sky-500 text-2xl font-semibold">shit.best</a>
+                </button>
+                <div class="flex gap-7 items-center text-gray-700">
+                    <div class="flex gap-7 border-r pr-10 py-1">
+                        <a href="{% url 'main' %}" class="transition ease-out hover:text-sky-400">Home</a>
+                        <a href="{% url 'news' %}" class="transition ease-out hover:text-sky-400">News</a>
+                        <a href="{% url 'help' %}" class="transition ease-out hover:text-sky-400">Help</a>
+                        <a href="{% url 'about' %}" class="transition ease-out hover:text-sky-400">About</a>
+                    </div>
+                    <div>
+                        {% if user.is_authenticated %}
+                        <div class="flex items-center" name="user-navbar">
+                            <button data-dropdown-toggle="dropdown-user" class="transition ease-out focus:scale-110">
+                                <img class="w-8 h-8 rounded-full overflow-hidden object-cover" src="{{user.profile.image.url}}">
+                            </button>
+                            <div id="dropdown-user" class="transition ease-out hidden bg-white shadow rounded-md text-gray-600 divide-y">
+                                <ul class="p-3"> <!--border-b-->
+                                    <li class="text-gray-900">{{user.username}}</li>
+                                    <li class="text-gray-600">{{user.email}}</li>
+                                </ul>
+                                <ul class="cursor-pointer">
+                                    <li class="transition ease-out px-3 py-2 pt-3 hover:bg-gray-100 hover:text-black"><a href="{% url 'profile' %}">Profile</a></li>
+                                    <li class="transition ease-out px-3 py-2 pb-3 hover:bg-gray-100 hover:text-black"><a href="#">Settings</a></li>
+                                </ul>
+                                <ul class="pb-1 cursor-pointer">
+                                    <li class="transition ease-out px-3 py-2 hover:bg-gray-100 hover:text-black"><a href="{% url 'logout' %}">Log out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        {% else %}
+                        <div>
+                            <a class="transition ease-out hover:text-sky-400" href="{% url 'login' %}">Log in</a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+            </nav>
+        </div>
+        <main class="p-6">
+            {% if messages %}
+                {% for message in messages %}
+                   <div id="alert_msg" role="alert" class="flex justify-center pb-6">
+                        <div class="bg-white text-gray-500 p-4 rounded-lg items-center flex gap-2">
+                            {% if message.tags == "success" %}
+                                <div class="text-green-500 bg-green-100 rounded-lg p-1">
+                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                </div>
+                            {% elif message.tags == "error" %}
+                                <div class="text-red-500 bg-red-100 rounded-lg p-1">
+                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                </div>
+                            {% elif message.tags == "warning" %}
+                                <div class="text-yellow-500 bg-yellow-100 rounded-lg p-1">
+                                    <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-exclamation-lg" viewBox="0 0 16 16">
+                                        <path d="M7.005 3.1a1 1 0 1 1 1.99 0l-.388 6.35a.61.61 0 0 1-1.214 0L7.005 3.1ZM7 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z"/>
+                                    </svg>
+                                </div>
+                            {% endif %}
+                            <span class="pr-20">{{message}}</span>
+                            <button class="pl" type="button" data-dismiss-target="#alert_msg">
+                                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+            
+            {% block body %}
+            {% endblock %}
+        </main>
+
+        <footer class="text-gray-500">
+            <div class="flex justify-between p-6 border-t mt-5">
+                <div>
+                    <span>Copyright © 2023</span>
+                    <a href="{% url 'main' %}" class="hover:text-black">Shit.best</a>
+                </div>
+                <div class="flex gap-5">
+                    <a href="{% url 'about' %}" class="hover:text-black flex items-center gap-1">
+                        <span>About</span>
+                    </a>
+                    <a href="{% url 'contact' %}" class="hover:text-black flex items-center gap-1">
+                        <Span>Contact</Span>
+                    </a>
+                    <div class="hover:fill-black">         
+                        <a href="https://github.com/FlareXF/shit" class="hover:text-black flex items-center gap-1">
+                            <svg class="" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                            <span>Github</span>
+                        </a>
+                    </div>
+                </div>
+     
+
+            </div>
+        </footer>
+    </div>
+</body>
+
+
+
+
+</html>

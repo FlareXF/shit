@@ -1,0 +1,12 @@
+{% extends "main/base.html" %}
+{% block body %}
+    <div class="flex justify-center">
+        <div class="flex flex-col gap-5 bg-white rounded-lg p-5 shadow">
+            <span class="font-bold text-xl">You fucked up man</span>
+            <div class="border-t">
+                <span class="text-sm font-semibold text-gray-600">Ididot</span>
+                <a class="text-sky-500 text-sm font-semibold hover:text-sky-800" href="{% url 'login' %}">Sign in</a>
+            </div>
+        </div>
+    </div>
+{% endblock body %}

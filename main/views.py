@@ -1,6 +1,16 @@
 from django.shortcuts import render
 from .models import Sites
+from django.views.generic import DetailView, ListView
 
+class SiteDetailView(DetailView):
+	model = Sites
+	template_name = "main/site.html"
+	context_object_name = "site"
+
+class SiteListView(ListView):
+	model = Sites
+	template_name = "main/main.html"
+	context_object_name = "sites"
 
 def main(request):
 	context = {

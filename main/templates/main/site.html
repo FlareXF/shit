@@ -1,0 +1,45 @@
+{% extends "main/base.html" %}
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock head %}
+{% block body %}
+    <div class="gap-5 flex flex-col w-fit justify-center">
+        <div class="bg-white rounded-md overflow-hidden shadow">
+            <img class="w-full h-64 object-cover bg-gray-100 border-b" src="https://amsi.org.au/ESA_Senior_Years/imageSenior/2d_29.png">
+            <div class="p-5">
+                <span class="block font-bold">{{site.name}}</span>
+                <span class="text-gray-500 text-sm">{{site.url}}</span>
+                <span>{{site.values}}</span>
+            </div>
+        </div>
+        <div class="bg-white rounded-md overflow-hidden shadow p-5">
+            <span class="font-bold">TTL Graph</span>
+            <canvas id="graph"></canvas>
+        </div>
+        <script>
+            var config = {
+                type: 'line',
+                data: {
+                    labels: ["12:00", "13:00", "14:00", "15:00", "16:00"],
+                    datasets: [{
+                        label: "ttl",
+                        backgroundColor: 'rgb(220, 38, 38)',
+                        borderColor: 'rgb(220, 38, 38)',
+                        data: [234, 12, 56, 41, 51],
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                  scales: {
+                    y: {
+                      beginAtZero: true
+                    }
+                  }
+                }
+            };
+            const ctx = document.getElementById('graph');
+            new Chart(ctx, config)
+        </script>
+    </div>
+
+{% endblock body %}

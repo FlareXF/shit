@@ -9,7 +9,6 @@
             <div class="p-5">
                 <span class="block font-bold">{{site.name}}</span>
                 <span class="text-gray-500 text-sm">{{site.url}}</span>
-                <span>{{site.values}}</span>
             </div>
         </div>
         <div class="bg-white rounded-md overflow-hidden shadow p-5">
@@ -20,12 +19,12 @@
             var config = {
                 type: 'line',
                 data: {
-                    labels: ["12:00", "13:00", "14:00", "15:00", "16:00"],
+                    labels: [{% for time in site.values.time %}"{{time}}",{% endfor %}],  
                     datasets: [{
                         label: "ttl",
                         backgroundColor: 'rgb(220, 38, 38)',
                         borderColor: 'rgb(220, 38, 38)',
-                        data: [234, 12, 56, 41, 51],
+                        data: [{% for value in site.values.values %}{{value}},{% endfor %}],
                         tension: 0.1
                     }]
                 },

@@ -1,44 +1,86 @@
 {% extends "main/base.html" %}
+{% load crispy_forms_filters %}
+{% load customtags %}
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock head %}
 {% block body %}
-    <div class="gap-5 flex flex-col w-fit justify-center">
-        <div class="bg-white rounded-md overflow-hidden shadow">
-            <img class="w-full h-64 object-cover bg-gray-100 border-b" src="https://amsi.org.au/ESA_Senior_Years/imageSenior/2d_29.png">
-            <div class="p-5">
-                <span class="block font-bold">{{site.name}}</span>
-                <span class="text-gray-500 text-sm">{{site.url}}</span>
+    <div class="flex justify-center gap-4">
+        <div class="gap-5 flex flex-col w-1/2 justify-center">
+            <div class="bg-white rounded-md overflow-hidden shadow flex divide-x items-center pl-5 gap-5">
+                <a href="{{site.url}}"><img class="h-16 object-cover bg-gray-100 bg-white" src="https://upload.wikimedia.org/wikipedia/ru/2/27/%D0%9B%D0%BE%D0%B3%D0%BE_%D0%9C%D0%A4%D0%A2%D0%98.png"></a>
+                <div class="p-5">
+                    <span class="block font-semibold text-2xl">{{site.name}}</span>
+                    <a href="{{site.url}}"><span class="text-gray-500 text-sm">{{site.url}}</span></a>
+                </div>
             </div>
-        </div>
-        <div class="bg-white rounded-md overflow-hidden shadow p-5">
-            <span class="font-bold">TTL Graph</span>
-            <canvas id="graph"></canvas>
-        </div>
-        <script>
-            var config = {
-                type: 'line',
-                data: {
-                    labels: [{% for time in site.values.time %}"{{time}}",{% endfor %}],  
-                    datasets: [{
-                        label: "ttl",
-                        backgroundColor: 'rgb(220, 38, 38)',
-                        borderColor: 'rgb(220, 38, 38)',
-                        data: [{% for value in site.values.values %}{{value}},{% endfor %}],
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                  scales: {
-                    y: {
-                      beginAtZero: true
+            <div class="bg-white rounded-md overflow-hidden shadow p-5 flex flex-col gap-2">
+                <span class="font-semibold text-xl">Доступность сайта</span>
+                <canvas id="graph"></canvas>
+            </div>
+            <!--<form method="POST">
+                {%csrf_token%}
+                {{form|crispy}}
+                <button type="submit" class="transition ease-out p-2 shadow rounded-md p-5 bg-white hover:shadow-md hover:bg-red-600 hover:text-white font-semibold w-full h-12">Report site</button>
+            </form>-->
+             <script>
+                var config = {
+                    type: 'line',
+                    data: {
+                        labels: [{% for time in 1|dict_range:site %}"{{ site|get_key:time }}",{% endfor %}],
+                        datasets: [
+                            {
+                                label: "ttl",
+                                backgroundColor: 'rgb(220, 38, 38)',
+                                borderColor: 'rgb(220, 38, 38)',
+                                data: [{% for value in 1|dict_range:site %}{{ site|get_value:value }},{% endfor %}],
+                                tension: 0.3,
+                                fill: {
+                                    target:"origin"
+                                }
+                            },
+                        ],
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      },
+    
+                      elements:{
+                        point:{
+                            borderWidth: 0,
+                            radius: 0,
+                            backgroundColor: 'rgba(0,0,0,0)'
+                        }
+                      },
+                      responsive: true,
+                      interaction: {
+                        intersect: false
+                      },
                     }
-                  }
-                }
-            };
-            const ctx = document.getElementById('graph');
-            new Chart(ctx, config)
-        </script>
+                };
+                const ctx = document.getElementById('graph');
+                new Chart(ctx, config)
+            </script>
+    
+        </div>
+        <div class="w-1/6 bg-white rounded-md shadow overflow-hidden p-3 flex flex-col gap-5 justify-between">
+            <span class="font-semibold text-xl">Доступен ли сайт?</span>
+            <form method="POST">
+                {%csrf_token%}
+                
+                <button type="submit" class="transition ease-out p-2 shadow rounded-md p-5 bg-sky-100 hover:shadow-md hover:bg-red-600 hover:text-white font-semibold w-full h-12">Сообщить о недоступности</button>
+            </form>
+        </div>
+    </div>
+    <div class="bg-white rounded-md shadow">
+        <form method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <button type="submit">Отправить</button>
+        </form>
     </div>
 
 {% endblock body %}

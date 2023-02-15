@@ -28,6 +28,6 @@ class CreatePostView(CreateView):
     fields = ['title', 'content']
     template_name = 'news/create-post.html'
 
-    def from_valid(self, form):
+    def form_valid(self, form):
         form.instance.author = self.request.user
         return super().form_valid(form)

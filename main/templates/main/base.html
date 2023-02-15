@@ -26,10 +26,10 @@
                 </button>
                 <div class="flex gap-7 items-center text-gray-700">
                     <div class="flex gap-7 border-r pr-10 py-1">
-                        <a href="{% url 'main' %}" class="transition ease-out hover:text-sky-400">Home</a>
-                        <a href="{% url 'news' %}" class="transition ease-out hover:text-sky-400">News</a>
-                        <a href="{% url 'help' %}" class="transition ease-out hover:text-sky-400">Help</a>
-                        <a href="{% url 'about' %}" class="transition ease-out hover:text-sky-400">About</a>
+                        <a href="{% url 'main' %}" class="transition ease-out hover:text-sky-400">Домой</a>
+                        <a href="{% url 'news' %}" class="transition ease-out hover:text-sky-400">Новости</a>
+                        <a href="{% url 'help' %}" class="transition ease-out hover:text-sky-400">Помощь</a>
+                        <a href="{% url 'about' %}" class="transition ease-out hover:text-sky-400">О нас</a>
                     </div>
                     <div>
                         {% if user.is_authenticated %}
@@ -43,11 +43,11 @@
                                     <li class="text-gray-600">{{user.email}}</li>
                                 </ul>
                                 <ul class="cursor-pointer">
-                                    <a href="{% url 'profile' %}"><li class="transition ease-out px-3 py-2 pt-3 hover:bg-gray-100 hover:text-black">Profile</li></a>
-                                    <a href="#"><li class="transition ease-out px-3 py-2 pb-3 hover:bg-gray-100 hover:text-black">Settings</li></a>
+                                    <a href="{% url 'profile' %}"><li class="transition ease-out px-3 py-2 pt-3 hover:bg-gray-100 hover:text-black">Профиль</li></a>
+                                    <a href="#"><li class="transition ease-out px-3 py-2 pb-3 hover:bg-gray-100 hover:text-black">Настройки</li></a>
                                 </ul>
                                 <ul class="pb-1 cursor-pointer">
-                                    <a href="{% url 'logout' %}"><li class="transition ease-out px-3 py-2 hover:bg-gray-100 hover:text-black">Log out</li></a>
+                                    <a href="{% url 'logout' %}"><li class="transition ease-out px-3 py-2 hover:bg-gray-100 hover:text-black">Выйти</li></a>
                                 </ul>
                             </div>
                         </div>
@@ -102,10 +102,10 @@
                 </div>
                 <div class="flex gap-5">
                     <a href="{% url 'about' %}" class="hover:text-black flex items-center gap-1">
-                        <span>About</span>
+                        <span>О нас</span>
                     </a>
                     <a href="{% url 'contact' %}" class="hover:text-black flex items-center gap-1">
-                        <Span>Contact</Span>
+                        <Span>Контакты</Span>
                     </a>
                     <div class="hover:fill-black">         
                         <a href="https://github.com/FlareXF/shit" class="hover:text-black flex items-center gap-1">

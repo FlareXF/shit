@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django.urls import reverse
 
 class Sites(models.Model):
     url = models.URLField()
@@ -13,6 +14,15 @@ class Sites(models.Model):
         return self.name
 
 
+class UserSite(Sites):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.owner - self.name}"
+    
+    def get_absolute_url(self):
+        return reverse("user-site", kwargs={"pk": self.pk})
+
 
 class SiteComment(models.Model):
     user = models.ForeignKey(User ,on_delete=models.CASCADE)
@@ -22,4 +32,4 @@ class SiteComment(models.Model):
     content = models.CharField(max_length=600)
 
     def __str__(self):
-        return self.user.username
+        return f"{self.user.username} - {self.date}"

@@ -1,10 +1,30 @@
 from django.shortcuts import render
-from main.models import Sites
-from django.views.generic import DetailView, ListView
+from main.models import Sites, UserSite
+from django.views.generic import DetailView, ListView, CreateView
 from main.forms import SiteCommentCreate
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+
+from django.views.generic.edit import FormMixin
+
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+
+class SiteDetailNCommentView(FormMixin, DetailView):
+	model = Sites
+	template_name = "main/site.html"
+	context_object_name = "site"
+	form = SiteCommentCreate
+
+	def get_context_data(self, **kwargs):
+		context = super().get_context_data(**kwargs)
+		context['form'] = self.form
+		return context
+	def post(self, request, *args, **kwargs):
+		self.object = self.get_object()
+		form = self.get_form()
+		
 
 
 @method_decorator(login_required, name='dispatch')
@@ -23,6 +43,7 @@ class SiteDetailView(DetailView):
 			form.instance.site = site
 			form.save()
 			return redirect(f'site/{self.id}/')
+
 	def get_context_data(self, **kwargs):
 		context = super().get_context_data(**kwargs)
 		context['form'] = self.form
@@ -33,6 +54,13 @@ class SiteListView(ListView):
 	model = Sites
 	template_name = "main/main.html"
 	context_object_name = "sites"
+
+
+class UserSiteCreate(CreateView):
+	model = UserSite
+	fields = ["name","url"]
+	template_name = "main/create-site.html"
+	context_object_name = "site"
 
 def main(request):
 	context = {

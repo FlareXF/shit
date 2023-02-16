@@ -7,15 +7,22 @@
                     <a href="#">{{post.title}}</a>
                 </li>
                 <li class="text-sm flex gap-1 items-center">
-                    <a href="#" class="hover:text-sky-500 flex gap-1 items-center">
-                        <img class ="w-6 h-6 rounded-full object-cover" src="{{user.profile.image.url}}" >
+                    <a href="{% url 'posts-user' post.author.username %}" class="hover:text-sky-500 flex gap-1 items-center">
+                        <img class ="w-6 h-6 rounded-full object-cover" src="{{post.author.profile.image.url}}" >
                         <span>{{post.author}}</span>
                     </a>
                     <span>{{post.date_posted|date:"F d, Y"}}</span>
                 </li>
-            </ul>    
+            </ul>
             <span class="p-2">{{post.content}}</span>
         </div>
+        {% if post.author == user %}
+            <div class="flex gap-2 text-sm">
+                <a href="{% url 'post-delete' post.id %}">Delete</a>
+                <a href="{% url 'post-update' post.id %}">Update</a>
+            </div>
+            <a href="{% url 'news' %}"><span class="font-bold text-gray-600 text-sm hover:text-blue-500">Return back</span></a>
+        {% endif %}
 </div>
 
 {% endblock body %}

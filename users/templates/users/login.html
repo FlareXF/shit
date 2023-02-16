@@ -9,9 +9,12 @@
                 {{ form|crispy }}
                 <button class="text-sm font-semibold transition block rounded-md p-2 bg-blue-600 text-white hover:bg-sky-500 hover:text-white hover:ring-2 hover:ring-gray-400" type="submit">Log in</button>
             </form>
-            <div class="border-t">
-                <span class="text-sm font-semibold text-gray-600">Don't have an account?</span>
-                <a class="text-sky-500 text-sm font-semibold hover:text-sky-800" href="{% url 'register' %}">Create</a>
+            <div>
+                <div class="border-t">
+                    <span class="text-sm font-semibold text-gray-600">Don't have an account?</span>
+                    <a class="text-sky-500 text-sm font-semibold hover:text-sky-800" href="{% url 'register' %}">Create</a>
+                </div>
+                <a class="text-sky-500 text-sm font-semibold hover:text-sky-800" href="{% url 'password-reset' %}">Forgot password?</a>
             </div>
         </div>
     </div>

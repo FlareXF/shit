@@ -21,14 +21,14 @@ def update_site_values():
         vals = site.values
         if len(vals) < values_number:
             url_with_protocol = site.url
-            url = re.sub(r"https?://", '', url_with_protocol)
+            url = re.search(r'https?://(www.)?([A-Za-z_0-9.-]+).*', url_with_protocol).group(2)
             formatted_date = dateformat.format(timezone.now(), 'G:i')
             vals[str(formatted_date)] = check_site(url)
             site.save()
         else:
             vals.pop(list(vals.keys())[0])
             url_with_protocol = site.url
-            url = re.sub(r"https?://", '', url_with_protocol)
+            url = re.search(r'https?://(www.)?([A-Za-z_0-9.-]+).*', url_with_protocol).group(2)
             formatted_date = dateformat.format(timezone.now(), 'G:i')
             vals[str(formatted_date)] = check_site(url)
             site.save()

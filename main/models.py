@@ -9,7 +9,7 @@ class Sites(models.Model):
     name = models.CharField(max_length=600)
 
     values = models.JSONField(default=dict)
-    #reports = models.JSONField(default=dict)
+    reports = models.JSONField(default=dict)
 
     def __str__(self):
         return self.name

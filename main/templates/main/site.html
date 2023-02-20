@@ -40,6 +40,10 @@
                     <span class="font-semibold text-xl">Доступность сайта</span>
                     <canvas id="graph"></canvas>
                 </div>
+                <div class="bg-white rounded-md overflow-hidden shadow p-5 flex flex-col gap-2">
+                    <span class="font-semibold text-xl">Сообщения о сбоях</span>
+                    <canvas id="graph_reports"></canvas>
+                </div>
                 <!--<form method="POST">
                     {%csrf_token%}
                     {{form|crispy}}
@@ -52,10 +56,10 @@
                             labels: [{% for time in 1|dict_range:site %}"{{ site|get_key:time }}",{% endfor %}],
                             datasets: [
                                 {
-                                    label: "ttl",
+                                    label: "Задержка (мс)",
                                     backgroundColor: 'rgb(220, 38, 38)',
                                     borderColor: 'rgb(220, 38, 38)',
-                                    data: [{% for value in 1|dict_range:site %}{{ site|get_value:value }},{% endfor %}],
+                                    data: [{% for value in 1|dict_range:site %}{{ site|get_value:value}},{% endfor %}],
                                     tension: 0.3,
                                     fill: {
                                         target:"origin"
@@ -83,8 +87,50 @@
                         },
                         }
                     };
+                    
                     const ctx = document.getElementById('graph');
-                    new Chart(ctx, config)
+                    new Chart(ctx, config); 
+
+                    var config_rep = {
+                        type: 'line',
+                        data: {
+                            labels: [{% for time in 1|dict_range:site %}"{{ site|get_key:time }}",{% endfor %}],
+                            datasets: [
+                                {
+                                    label: "Сбои",
+                                    backgroundColor: 'rgb(220, 38, 38)',
+                                    borderColor: 'rgb(220, 38, 38)',
+                                    data: [{% for value in 1|dict_range:site %}{{ site|get_value:value}},{% endfor %}],
+                                    tension: 0.3,
+                                    fill: {
+                                        target:"origin"
+                                    }
+                                },
+                            ],
+                        },
+                        options: {
+                        scales: {
+                            y: {
+                            beginAtZero: true
+                            }
+                        },
+        
+                        elements:{
+                            point:{
+                                borderWidth: 0,
+                                radius: 0,
+                                backgroundColor: 'rgba(0,0,0,0)'
+                            }
+                        },
+                        responsive: true,
+                        interaction: {
+                            intersect: false
+                        },
+                        }
+                    };
+                    
+                    const ctx_rep = document.getElementById('graph_reports');
+                    new Chart(ctx_rep, config_rep);
                 </script>
         
             </div>

@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from main.models import Sites, UserSite, SiteComment
 from django.views.generic import DetailView, ListView, CreateView, UpdateView, DeleteView
-from main.forms import SiteCommentCreate
+from main.forms import SiteCommentCreate, SiteSearchForm
 from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 
@@ -55,7 +55,21 @@ class SiteListView(ListView):
 	model = Sites
 	template_name = "main/main.html"
 	context_object_name = "sites"
-	paginate_by = 16
+	paginate_by = 20
+	search_form = SiteSearchForm
+
+	def get_queryset(self):
+		search_form = self.search_form(self.request.GET)
+		if search_form.is_valid():
+			sites = Sites.objects.filter(name__icontains=search_form.cleaned_data['keywords'])
+		else:
+			sites = Sites.objects.all()
+		return sites
+
+	def get_context_data(self, *args, **kwargs):
+		context = super().get_context_data(*args, **kwargs)
+		context['form'] = self.search_form
+		return context
 
 
 
@@ -77,7 +91,7 @@ class UserSiteListView(LoginRequiredMixin, ListView):
 	model = UserSite
 	template_name = "main/user-sites.html"
 	context_object_name = "sites"
-	paginate_by = 16
+	paginate_by = 20
 
 	def get_queryset(self):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))

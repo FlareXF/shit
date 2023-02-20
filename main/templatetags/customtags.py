@@ -12,6 +12,7 @@ def filter_get_key(dictionary, i):
 
 @register.filter(name='get_value')
 def filter_get_value(dictionary, i):
+    #print(list(dictionary.values.values())[i][j])
     return list(dictionary.values.values())[i]
 
 @register.filter(name='multiply')

@@ -27,7 +27,7 @@
             <nav class="p-3 mb-3 flex justify-evenly items-center border-b bg-white">
                 <button class="">
                     <img>
-                    <a href="{% url 'main' %}" class="transition ease-out hover:animate-pulse hover:scale-125 hover:text-sky-500 text-2xl font-semibold">shit.best</a>
+                    <a href="{% url 'main' %}" class="transition ease-out hover:animate-pulse hover:scale-125 hover:text-sky-500 text-2xl font-semibold">sh.it.best</a>
                 </button>
                 <div class="flex gap-7 items-center text-gray-700">
                     <div class="flex gap-7 border-r pr-10 py-1">
@@ -42,7 +42,7 @@
                             <button data-dropdown-toggle="dropdown-user" class="transition ease-out focus:scale-110">
                                 <img class="w-8 h-8 rounded-full overflow-hidden object-cover" src="{{user.profile.image.url}}">
                             </button>
-                            <div id="dropdown-user" class="transition ease-out hidden bg-white shadow rounded-md text-gray-600 divide-y">
+                            <div id="dropdown-user" class="transition ease-out hidden bg-white shadow rounded-md text-gray-600 divide-y z-50">
                                 <ul class="p-3"> <!--border-b-->
                                     <li class="text-gray-900">{{user.username}}</li>
                                     <li class="text-gray-600">{{user.email}}</li>

@@ -1,28 +1,41 @@
 {% extends "main/base.html" %}
 {% load customtags %}
+{% load crispy_forms_tags %}
 {% block head %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
 {% endblock head %}
 
+
 {% block body %}
-    <div class="gap-5 flex flex-wrap">
+<form method="GET" class="pb-5 w-2/6 pl-36">
+    <div class="relative w-full rounded-lg overflow-hidden flex focus:ring-2 shadow">
+        {{ form }}
+
+        <!--<input class="w-full p-3" type="input" placeholder="С каким сайтом у вас возникли проблемы?">-->
+        <button class="p-3 h-full bg-sky-500 text-white absolute right-0" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg></button>
+    </div>
+</form>
+
+    <div class="gap-5 flex flex-wrap justify-center">
         {% for site in sites %}
-        <a href="{% url 'site' site.id %}" class="transition ease-out bg-white rounded-md overflow-hidden shadow hover:shadow-lg hover:scale-105">
-            <img src="{{site.siteprofile.image.url}}" />
+        <a href="{% url 'site' site.id %}" class="relative transition ease-out bg-white rounded-md overflow-hidden shadow hover:shadow-lg hover:scale-105">
+            <img src="{{site.siteprofile.image.url}}" class="w-16 p-2 object-cover absolute bg-white right-0"/>
             <svg>
                 <polyline
                     fill="none",
                     stroke="#0074d9",
                     stroke-width="2",
                     points = "
-                        {% for i in 1|dict_range:site %}
-                        {{ i|multiply:10 }}, {{site|get_value:i}}
+                        {% for i in 0|dict_range:site %}
+                        {{ i|multiply:10 }}, {{site|get_value:i }}
                         {% endfor %}
                     "
                 />
             </svg>
             <!--<img class="w-full h-64 object-cover bg-gray-100 border-b" src="https://amsi.org.au/ESA_Senior_Years/imageSenior/2d_29.png">-->
-            <div class="p-5">
+            <div class="p-5 w-64 truncate">
                 <span class="block font-bold">{{site.name}}</span>
                 <span class="text-gray-500 text-sm">{{site.url}}</span>
             </div>
@@ -30,7 +43,8 @@
         {% endfor %}
     </div>
     {% if is_paginated %}
-    <nav class="inline-flex bg-white rounded border justify-center divide-x text-gray-500 items-center mt-5">
+    <nav class="flex justify-center">
+        <div class="flex bg-white rounded border divide-x text-gray-500 items-center mt-5">
         {% if page_obj.has_previous %}
             <a class="hover:text-black hover:bg-gray-100 px-3 py-2" href="?page={{ page_obj.previous_page_number }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
@@ -53,6 +67,7 @@
           </svg></a>
     
         {% endif %}
+        </div>
     </nav>
     {% endif %}
 {% endblock body %}

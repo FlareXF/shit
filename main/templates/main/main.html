@@ -7,8 +7,8 @@
 {% block body %}
     <div class="gap-5 flex flex-wrap">
         {% for site in sites %}
-        <a href="site/{{site.id}}" class="transition ease-out bg-white rounded-md overflow-hidden shadow hover:shadow-lg hover:scale-105">
-            
+        <a href="{% url 'site' site.id %}" class="transition ease-out bg-white rounded-md overflow-hidden shadow hover:shadow-lg hover:scale-105">
+            <img src="{{site.siteprofile.image.url}}" />
             <svg>
                 <polyline
                     fill="none",
@@ -21,7 +21,6 @@
                     "
                 />
             </svg>
-
             <!--<img class="w-full h-64 object-cover bg-gray-100 border-b" src="https://amsi.org.au/ESA_Senior_Years/imageSenior/2d_29.png">-->
             <div class="p-5">
                 <span class="block font-bold">{{site.name}}</span>
@@ -30,4 +29,30 @@
         </a>
         {% endfor %}
     </div>
+    {% if is_paginated %}
+    <nav class="inline-flex bg-white rounded border justify-center divide-x text-gray-500 items-center mt-5">
+        {% if page_obj.has_previous %}
+            <a class="hover:text-black hover:bg-gray-100 px-3 py-2" href="?page={{ page_obj.previous_page_number }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+              </svg></a>
+            <a class="hover:text-black hover:bg-gray-100 px-3 py-2" href="?page=1">1</a>
+        {% endif %}
+        {% for page in page_obj.paginator.page_range %}
+            {% if page_obj.number ==  page %}
+                <a class="text-blue-600 bg-blue-50 hover:text-blue-700 hover:bg-blue-100 px-3 py-2" href="?page={{ page }}">{{ page }}</a>
+            {% elif page > page_obj.number|add:'-2' and page < page_obj.number|add:'2'%}
+                {% if page > 1 and page < page_obj.paginator.num_pages %}
+                <a class="hover:text-black hover:bg-gray-100 px-3 py-2" href="?page={{ page }}">{{ page }}</a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <a class="hover:text-black hover:bg-gray-100 px-3 py-2" href="?page={{ page_obj.paginator.num_pages }}">{{page_obj.paginator.num_pages}}</a>
+        <a class="hover:text-black hover:bg-gray-100 px-3 py-2" href="?page={{ page_obj.next_page_number }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+          </svg></a>
+    
+        {% endif %}
+    </nav>
+    {% endif %}
 {% endblock body %}

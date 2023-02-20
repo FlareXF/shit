@@ -1,0 +1,6 @@
+/media/profile_pics/*
+/media/site_pics/*
+/pngs
+stass.json
+db.sqlite3
+tst.py

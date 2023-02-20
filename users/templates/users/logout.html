@@ -2,10 +2,10 @@
 {% block body %}
     <div class="flex justify-center">
         <div class="flex flex-col gap-5 bg-white rounded-lg p-5 shadow">
-            <span class="font-bold text-xl">You fucked up man</span>
-            <div class="border-t">
-                <span class="text-sm font-semibold text-gray-600">Ididot</span>
-                <a class="text-sky-500 text-sm font-semibold hover:text-sky-800" href="{% url 'login' %}">Sign in</a>
+            <span class="font-bold text-xl">Вы вышли из аккаунта</span>
+            <div class="border-t flex flex-col gap-2 pt-2">
+                <a class="text-sky-500 text-sm font-semibold hover:text-sky-800" href="{% url 'login' %}">Войти</a>
+                <a class="text-sky-500 text-sm font-semibold hover:text-sky-800" href="{% url 'main' %}">На главную</a>
             </div>
         </div>
         

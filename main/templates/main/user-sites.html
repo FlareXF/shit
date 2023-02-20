@@ -1,0 +1,72 @@
+{% extends "main/base.html" %}
+{% load customtags %}
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+{% endblock head %}
+
+{% block body %}
+<div class="flex justify-between flex-row-reverse">
+    <div class="group pr-5">
+        <a href="{% url 'user-site-create' %}" type="button" class="flex items-center justify-center text-white bg-sky-500 rounded-full w-12 h-12 hover:bg-sky-600 focus:ring-4 focus:ring-sky-700 focus:outline-none">
+            <svg class="w-8 h-8 transition-transform group-hover:rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+        </a>
+    </div>
+
+    <div class="gap-5 flex flex-wrap">
+        {% for site in sites %}
+        <div class="transition ease-out bg-white rounded-md overflow-hidden shadow hover:shadow-lg hover:scale-105">
+            <a href="{% url 'user-site' site.id %}">
+            
+                <svg>
+                    <polyline
+                        fill="none",
+                        stroke="#0074d9",
+                        stroke-width="2",
+                        points = "
+                            {% for i in 1|dict_range:site %}
+                            {{ i|multiply:10 }}, {{site|get_value:i}}
+                            {% endfor %}
+                        "
+                    />
+                </svg>
+                <!--<img class="w-full h-64 object-cover bg-gray-100 border-b" src="https://amsi.org.au/ESA_Senior_Years/imageSenior/2d_29.png">-->
+                <div class="p-5">
+                    <span class="block font-bold">{{site.name}}</span>
+                    <span class="text-gray-500 text-sm">{{site.url}}</span>
+                </div>
+            </a>
+        </div>
+        
+        
+        {% endfor %}
+    </div>
+    
+</div>
+
+{% if is_paginated %}
+    <nav class="inline-flex bg-white rounded border justify-center divide-x text-gray-500 items-center mt-5">
+        {% if page_obj.has_previous %}
+            <a class="hover:text-black hover:bg-gray-100 px-3 py-2" href="?page={{ page_obj.previous_page_number }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"/>
+              </svg></a>
+            <a class="hover:text-black hover:bg-gray-100 px-3 py-2" href="?page=1">1</a>
+        {% endif %}
+        {% for page in page_obj.paginator.page_range %}
+            {% if page_obj.number ==  page %}
+                <a class="text-blue-600 bg-blue-50 hover:text-blue-700 hover:bg-blue-100 px-3 py-2" href="?page={{ page }}">{{ page }}</a>
+            {% elif page > page_obj.number|add:'-2' and page < page_obj.number|add:'2'%}
+                {% if page > 1 and page < page_obj.paginator.num_pages %}
+                <a class="hover:text-black hover:bg-gray-100 px-3 py-2" href="?page={{ page }}">{{ page }}</a>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <a class="hover:text-black hover:bg-gray-100 px-3 py-2" href="?page={{ page_obj.paginator.num_pages }}">{{page_obj.paginator.num_pages}}</a>
+        <a class="hover:text-black hover:bg-gray-100 px-3 py-2" href="?page={{ page_obj.next_page_number }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"/>
+          </svg></a>
+    
+        {% endif %}
+    </nav>
+    {% endif %}
+{% endblock body %}

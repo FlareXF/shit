@@ -1,0 +1,114 @@
+{% extends "main/base.html" %}
+{% load crispy_forms_filters %}
+{% load customtags %}
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock head %}
+{% block body %}
+
+
+
+<div class="flex flex-row justify-center">
+    
+    <div class="w-4/6 gap-5 flex flex-col justify-center">
+        {% if user == user %}
+        <!--<div class="flex gap-2 text-sm">
+            <a href="{% url 'user-site-delete' site.id %}">Delete</a>
+            <a href="{% url 'user-site-update' site.id %}">Update</a>
+        </div>
+        <a href="{% url 'main' %}"><span class="font-bold text-gray-400 text-sm hover:text-blue-500">Назад</span></a>-->
+        {% endif %}
+        <nav>
+            <ul class="flex flex-cols items-center text-gray-500 font-semibold">
+                <a href="{% url 'user-sites' user.username %}"><li class="hover:text-sky-600">Мои сайты</li></a>
+                <li><svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>
+                </svg>
+                </li>
+                <a href="{% url 'user-site' site.id %}"><li class="hover:text-sky-600">{{site.name}}</li></a>
+            </ul>
+        </nav>
+        <div class="flex justify-between gap-4">
+            <div class="gap-5 flex flex-col justify-center w-9/12">
+                <div class="bg-white rounded-md overflow-hidden shadow flex divide-x items-center pl-5 gap-5">
+                    <a href="{{site.url}}"><img class="h-16 object-cover bg-gray-100 bg-white" src="{{site.usersiteprofile.image.url}}"></a>
+                    <div class="flex justify-between p-5">
+                        <div>
+                            <span class="block font-semibold text-2xl">{{site.name}}</span>
+                            <a href="{{site.url}}"><span class="text-gray-500 text-sm">{{site.url}}</span></a>
+                        </div>
+                        <button class="transition ease-out text-gray-400 hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 focus:text-black p-2 rounded-md" data-dropdown-toggle="commentDropdown{{comment.id}}" type="button"><svg class="w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg></button>
+                        <div class="hidden bg-white shadow rounded-md" id="commentDropdown{{comment.id}}">
+                            <ul class="transition ease-out text-gray-600">
+                                <a href="{% url 'user-site-update' site.id %}"><li class="hover:bg-gray-100 hover:text-black p-3 pr-10">Редактировать</li></a>
+                                <a href="{% url 'user-site-delete' site.id %}"><li class="hover:bg-gray-100 hover:text-black p-3 pr-10">Удалить</li></a>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-md overflow-hidden shadow p-5 flex flex-col gap-2">
+                    <span class="font-semibold text-xl">Доступность сайта</span>
+                    <canvas id="graph"></canvas>
+                </div>
+                <!--<form method="POST">
+                    {%csrf_token%}
+                    {{form|crispy}}
+                    <button type="submit" class="transition ease-out p-2 shadow rounded-md p-5 bg-white hover:shadow-md hover:bg-red-600 hover:text-white font-semibold w-full h-12">Report site</button>
+                </form>-->
+                <script>
+                    var config = {
+                        type: 'line',
+                        data: {
+                            labels: [{% for time in 1|dict_range:site %}"{{ site|get_key:time }}",{% endfor %}],
+                            datasets: [
+                                {
+                                    label: "ttl",
+                                    backgroundColor: 'rgb(220, 38, 38)',
+                                    borderColor: 'rgb(220, 38, 38)',
+                                    data: [{% for value in 1|dict_range:site %}{{ site|get_value:value }},{% endfor %}],
+                                    tension: 0.3,
+                                    fill: {
+                                        target:"origin"
+                                    }
+                                },
+                            ],
+                        },
+                        options: {
+                        scales: {
+                            y: {
+                            beginAtZero: true
+                            }
+                        },
+        
+                        elements:{
+                            point:{
+                                borderWidth: 0,
+                                radius: 0,
+                                backgroundColor: 'rgba(0,0,0,0)'
+                            }
+                        },
+                        responsive: true,
+                        interaction: {
+                            intersect: false
+                        },
+                        }
+                    };
+                    const ctx = document.getElementById('graph');
+                    new Chart(ctx, config)
+                </script>
+        
+            </div>
+            <div class="w-3/12 bg-white rounded-md shadow overflow-hidden p-3 flex flex-col gap-5 justify-between">
+                <span class="font-semibold text-xl">Составить отчет</span>
+                <form method="POST">
+                    {%csrf_token%}
+                    
+                    <button type="submit" class="transition ease-out p-2 shadow rounded-md p-5 bg-sky-100 hover:shadow-md hover:bg-red-600 hover:text-white font-semibold w-full h-12">Скачать pdf файл</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock body %}

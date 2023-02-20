@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.3/flowbite.min.js"></script>
+    <style>
+        .asteriskField {
+        display: none;
+        }
+    </style>
     {% block head %}
     {% endblock head %}
     
@@ -44,7 +49,7 @@
                                 </ul>
                                 <ul class="cursor-pointer">
                                     <a href="{% url 'profile' %}"><li class="transition ease-out px-3 py-2 pt-3 hover:bg-gray-100 hover:text-black">Профиль</li></a>
-                                    <a href="#"><li class="transition ease-out px-3 py-2 pb-3 hover:bg-gray-100 hover:text-black">Настройки</li></a>
+                                    <a href="{% url 'user-sites' user.username %}"><li class="transition ease-out px-3 py-2 pb-3 hover:bg-gray-100 hover:text-black">Отслеживаемые</li></a>
                                 </ul>
                                 <ul class="pb-1 cursor-pointer">
                                     <a href="{% url 'logout' %}"><li class="transition ease-out px-3 py-2 hover:bg-gray-100 hover:text-black">Выйти</li></a>
@@ -53,7 +58,7 @@
                         </div>
                         {% else %}
                         <div>
-                            <a class="transition ease-out hover:text-sky-400" href="{% url 'login' %}">Log in</a>
+                            <a class="transition ease-out hover:text-sky-400" href="{% url 'login' %}">Войти</a>
                         </div>
                         {% endif %}
                     </div>
